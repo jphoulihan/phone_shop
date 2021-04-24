@@ -2,8 +2,11 @@ const db = require("./database");
 
 var express = require('express')
 var router = express.Router()
+const bodyParser = require('body-parser');
 
-// middleware that is specific to this router
+
+
+
 router.use(function timeLog (req, res, next) {
   console.log('Time: ', Date.now())
   next()
@@ -11,31 +14,29 @@ router.use(function timeLog (req, res, next) {
 
 // get all customers    :/api/customer          GET
 // get customer by Id   :/api/customer/{id}     GET
+
 // create customer data :/api/customer/         PUT     
 // update customer data :/api/customer/{id}     PATCH
+
 // delete customer      :/api/customer/{id}     DELETE
 
-// get all customers 
 router.get('/', function (req, res) {
-
   let cust = db.findAllCustomers();
   cust.then( c => res.send(c))
-  //console.log("returning data of ", cust);
-  //res.send(cust)
-  // res.send('this is all the customers')
-  // res.send(cust)
 })
 
-router.get('/id', function (req, res) {
-    let cust = db.findCustomerById();
-    res.send(cust)
+router.get('/:id', function (req, res) {
+    let userId = req.params.id
+    let cust = db.findById(userId); // pass id here.
+    console.log(userId)
+    cust.then(c => res.send(c));
 })
 
+//
 router.put('/', function (req, res) {
-    
-    db.createCustomer();
-
-    res.send('this is creating a new customer')
+    console.log("req message is ", req.body)
+    let customer = db.insertCustomer(req.body);
+    customer.then(c => res.send(c));
 })
 
 router.patch('/id', function (req, res) {
