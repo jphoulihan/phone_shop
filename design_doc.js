@@ -17,9 +17,11 @@ Application:
                 - 
 
     - README: 
+    depenenceies
         - how to install application
-            - npm install Express
             - npm install node 
+            - npm install Express
+            - npm install mongodb 
         - how to start 
         - how to use: postman (bonus points for creating and submitting the postman collection)
         - docs: provided in ascii doc format - to view formatting install asscidoc extension

@@ -1,0 +1,16 @@
+You	should	include	methods for the	each of	CRUD acHviHes for the	different	enHtles.	
+
+For	example,	
+
+for	the	C(create) acHvity you should demonstrate how to	create the	customer document	(personal	
+and	address),	and	add	it	to	the	database	using	a	method	insertCustomer(<details>).	
+
+For	the	R	(select	 a	 customer	 and	 output	 (not	 raw	 object)	 the	
+details	(log	to	console)	using	findCustomer(<details>).	
+
+For	the	U	(select	a	customer	and	update	three	elements	of	their	personal	(phone,	email,	Title)	and	all	or	any	
+of	 their	 address	 data	 using	 updateCustomer(<details>).	 
+
+For	the D (delete)
+delete	all	 records	 for	a	customer	matching	a	 specified	email,	phone	and	name	using	deleteCustomer(<details>).	 Similarly,	 you	 need	 to	 perform	 similar	 CRUD	 acHviHes	 for	 Items	 and	 Orders	
+

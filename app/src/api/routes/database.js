@@ -1,19 +1,7 @@
 //import data files
-const customers = require("./customers.js").customers;
-const products = require("./products.js").products;
+//const customers = require("./customers.js").customers;
+//const products = require("./products.js").products;
 
-//init express
-const express = require('express')
-const app = express()
-const port = 3000
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
 
 //make mongodb connection
 const assert = require("assert");
@@ -22,7 +10,60 @@ const url = "mongodb://localhost:27017";
 const dbName = "mobile_phone_store";
 const client = new MongoClient(url, { useUnifiedTopology: true });
 
-//CRUD orders
+
+//connecting to database, crud inside connection
+const db = client.connect(function (err) {
+  console.log("Connected!\n");
+  return client.db(this.dbName);
+});
+
+
+// Working example!!
+// should return all, but we can only get findOne working for now...
+// you can try to debug it yourself and see if you can get it to return all customers.
+async function findAllCustomers() { 
+  const db = client.db(dbName);
+
+  const collection = db.collection("customers");
+
+  let customer = await collection.findOne({ fname: "Méabh" });
+
+  console.log("we found customer with data of ", customer);
+
+  return customer
+};
+
+
+async function findById(id) { 
+  const db = client.db(dbName);
+  
+  const collection = db.collection("customers");
+
+  let customer = await collection.findOne({ _id: id });
+
+  console.log("we found customer with data of ", customer);
+  
+  return customer
+};
+
+
+// function createCustomer();
+// function updateCustomer();
+// function deleteCustomer();
+
+
+
+// asfasf
+
+
+
+
+
+
+
+
+
+
 
 //Creating Orders collection containing customer id, and products ordered ids
 //function is assigned to var therefore it is an inline function
@@ -52,7 +93,7 @@ const insertOrder = async function (db, callback) {
   callback();
 };
 
-//R retrieve all orders
+
 const findOrder = async function (db, callback) {
   const collection = db.collection("orders");
 
@@ -90,8 +131,7 @@ const deleteOrders = async function (db, callback) {
   callback();
 };
 
-//CRUD functions for customer
-//C
+
 const insertCustomers = function (db, callback) {
   // Using the "documents" collection
   const collection = db.collection("customers");
@@ -108,7 +148,6 @@ const insertCustomers = function (db, callback) {
   });
 };
 
-//R
 const findCustomer = async function (db, callback) {
   const collection = db.collection("customers");
 
@@ -120,7 +159,6 @@ const findCustomer = async function (db, callback) {
   callback();
 };
 
-//U
 const updateCustomer = async function (db, callback) {
   const collection = db.collection("customers");
 
@@ -142,7 +180,7 @@ const updateCustomer = async function (db, callback) {
   callback();
 };
 
-//D
+
 const deleteCustomers = async function (db, callback) {
   const collection = db.collection("customers");
 
@@ -217,85 +255,90 @@ const deleteProducts = async function (db, callback) {
   const collection = db.collection("item_details");
 
   let deleted = await collection.deleteMany({});
-  console.log(deleted);
+  
+
   callback();
 };
 
 //connecting to database, crud inside connection
-client.connect(function (err) {
-  assert.strictEqual(null, err);
-  console.log("Connected!\n");
 
-  const db = client.db(dbName);
+// client.connect(function (err) {
+//   assert.strictEqual(null, err);
+//   console.log("Connected!\n");
 
-  //CRUD for customers
+//   const db = client.db(dbName);
 
-  //C
-  // insertCustomers(db, function() {
-  //   client.close();
-  // });
+//   //CRUD for customers
 
-  //R
-  // findCustomer(db, function () {
-  //   client.close();
-  // });
+//   //C
+//   // insertCustomers(db, function() {
+//   //   client.close();
+//   // });
 
-  //U
-  // updateCustomer(db, function (){
-  //   client.close();
-  // });
+//   //R
+//   // findCustomer(db, function () {
+//   //   client.close();
+//   // });
 
-  //D
-  //deleteCustomers(db, function () {
-  //    client.close();
-  // });
+//   //U
+//   // updateCustomer(db, function (){
+//   //   client.close();
+//   // });
 
-  //******************************/
+//   //D
+//   //deleteCustomers(db, function () {
+//   //    client.close();
+//   // });
 
-  //CRUD for products
+//   //******************************/
 
-  //C
-  // insertProducts(db, function() {
-  //   client.close();
-  // });
+//   //CRUD for products
 
-  //R
-  // findProducts(db, function () {
-  //   client.close();
-  // });
+//   //C
+//   // insertProducts(db, function() {
+//   //   client.close();
+//   // });
 
-  //U
-  // updateProduct(db, function () {
-  //   client.close();
-  // });
+//   //R
+//   // findProducts(db, function () {
+//   //   client.close();
+//   // });
 
-  //D
-  //  deleteProducts(db, function () {
-  //    client.close();
-  //  });
+//   //U
+//   // updateProduct(db, function () {
+//   //   client.close();
+//   // });
 
-  //*****************************/
+//   //D
+//   //  deleteProducts(db, function () {
+//   //    client.close();
+//   //  });
 
-  //CRUD for Orders
+//   //*****************************/
 
-  //C
-  // insertOrder(db, function () {
-  //   client.close();
-  // });
+//   //CRUD for Orders
 
-  //R
-  // findOrder(db, function () {
-  //   client.close();
-  // });
+//   //C
+//   // insertOrder(db, function () {
+//   //   client.close();
+//   // });
 
-  // customerHasOrder(db, function () {
-  //   client.close();
-  // });
+//   //R
+//   // findOrder(db, function () {
+//   //   client.close();
+//   // });
 
-  //U
+//   // customerHasOrder(db, function () {
+//   //   client.close();
+//   // });
 
-  //D
-  //  deleteOrders(db, function () {
-  //    client.close();
-  //  });
-});
+//   //U
+
+//   //D
+//   //  deleteOrders(db, function () {
+//   //    client.close();
+//   //  });
+// });
+
+
+module.exports.findAllCustomers = findAllCustomers
