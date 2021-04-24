@@ -11,17 +11,12 @@ const url = "mongodb://localhost:27017";
 const dbName = "mobile_phone_store";
 const client = new MongoClient(url, { useUnifiedTopology: true });
 
-
 //connecting to database, crud inside connection
 const db = client.connect(function (err) {
   console.log("Connected!\n");
   return client.db(this.dbName);
 });
 
-
-// Working example!!
-// should return all, but we can only get findOne working for now...
-// you can try to debug it yourself and see if you can get it to return all customers.
 async function findOneCustomer() { 
   const db = client.db(dbName);
   const collection = db.collection("customers");
@@ -37,7 +32,6 @@ async function findAllCustomers() {
   return customer
 };
 
-
 async function findById(id) { 
   const db = client.db(dbName);
   const collection = db.collection("customers");
@@ -47,18 +41,64 @@ async function findById(id) {
   return customer
 }
 
-
 async function insertCustomer(data) {
   const db = client.db(dbName);
   const collection = db.collection("customers");
   var query = {data};
   let customer = await collection.insertOne(query);
+  return customer.ops[0]._id
+}
+
+async function updateCustomer(id, data) {
+  const db = client.db(dbName);
+  const collection = db.collection("customers");
+  var id = {_id: mongoose.Types.ObjectId(id)};
+  let customer = await collection.replaceOne(id, data);
   return customer.ops[0].data
 }
+
+async function deleteCustomer(id) {
+  const db = client.db(dbName);
+  const collection = db.collection("customers");
+  var id = {_id: mongoose.Types.ObjectId(id)};
+  let customer = await collection.deleteOne(id);
+}
+
+// const deleteCustomers = async function (db, callback) {
+//   const collection = db.collection("customers");
+
+//   let deleted = await collection.deleteMany({});
+//   console.log(deleted);
+//   callback();
+// };
+
+// const updateCustomer = async function (db, callback) {
+//   const collection = db.collection("customers");
+
+//   let query = { fname: "Méabh" };
+//   let values = { $set: { lname: "Newman" } };
+//   let options = { upsert: true };
+  
+//   const docBefore = await collection.findOne(query);
+//   await collection.updateOne(query, values, options);
+//   const message = "has been updated to";
+//   const docAfter = await collection.findOne(query);
+
+//   Promise.all([docBefore, message, docAfter]).then((values) =>
+//     console.log(values)
+//   );
+//   // console.log(beforeUpdate);
+//   // console.log(res);
+//   //close connection to db gets passed into this callback.
+//   callback();
+// };
 
 module.exports.findAllCustomers = findAllCustomers
 module.exports.findById = findById
 module.exports.insertCustomer = insertCustomer 
+module.exports.updateCustomer = updateCustomer 
+module.exports.deleteCustomer = deleteCustomer 
+
 
 
 // function createCustomer();

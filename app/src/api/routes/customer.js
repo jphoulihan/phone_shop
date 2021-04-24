@@ -4,9 +4,6 @@ var express = require('express')
 var router = express.Router()
 const bodyParser = require('body-parser');
 
-
-
-
 router.use(function timeLog (req, res, next) {
   console.log('Time: ', Date.now())
   next()
@@ -36,19 +33,19 @@ router.get('/:id', function (req, res) {
 router.put('/', function (req, res) {
     console.log("req message is ", req.body)
     let customer = db.insertCustomer(req.body);
+    customer = customer.then(c => res.send(c));
+    return customer
+})
+
+router.patch('/:id', function (req, res) {
+    let customer =  db.updateCustomer(req.params.id, req.body);
     customer.then(c => res.send(c));
 })
 
-router.patch('/id', function (req, res) {
-    db.updateCustomer();
-
-    res.send('this is updating the customer with the id 1')
-})
-
-router.delete('/id', function (req, res) {
-    db.deleteCustomer();
-
-    res.send('this is deleting the customer with the id 1')
+router.delete('/:id', function (req, res) {
+    let userId = req.params.id
+    let customer =  db.deleteCustomer(userId);
+    customer.then(c => res.send(c));
 })
 
 // define the about route
