@@ -1,37 +1,21 @@
-Assignment 05 DB/Document structure
+Assignment 05 DB/Document Model structure
 
 Query Needs
 
-1 CRUD functionality on customer, item, order
+1 CRUD functionality on customers, products, orders
 
 2 Record item pruchases or establish this information using queries
 
 
 One-to-Many via embedded documents
 
-embeded documents of addresses and an array of order arrays in customer collection (customer details (addresses: [home, shipping]), orders[[item: Objectid]])
+embedded documents for addresses in customer collection (customer details (addresses: [home, shipping]))
 
-Many-to-Many (customer has many order items/item ordered by many customers)
+Many-to-Many (customer has many ordered products/products ordered by many customers) this is the likely scenario, if the databases scale grew
+embedding all ordered products into each customer document may cause more overhead that outweighs the benefits of denormalized data and query efficiency for customers orders
+for this reason orders will be stand alone collections and normalized by referencing ObjectIds of cutomers and products
 
-Items (a stand alone document collection?)
-
-DB references, manual reference or 'lookup' and 'match' pipeline queries 
-
-each item Objectid is used as a reference in customer collection where field is customer.orders when customer purchases the item
-
-Advantages of a lookup - lookup is equivalent to an inner join. All entities that match the document in use will be retrieve 'from' another collection of documents where
-there is a match.
-
-How can this be useful? it can retrieve all info about items purchased by a customer, inversly it can retrieve all customers connected to an item.
-Will this help our query requirements? establish item purchase info via queries = yes, record item purchase ie enable insert of order? 
-
-How do I create a purchase on the fly? 
-
-Front end a customer would add an item to the basket, backend item's id would be inserted into customer.orders. 
-
-If a customer has multiple orders of multiple items. How do you distinguish the order number? add to basket * n -> checkout -> list of item Objectids get added to 
-orders array, basket clears customer can place next order, new array of orders added to customer.orders.
-
+Orders collection will contain an ObjectId for each order, each order will contain the id of the customer who has made the order and the id of the products
 
 
 
