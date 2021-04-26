@@ -6,7 +6,7 @@ var birds = require('./api/routes/birds');
 
 var customer = require('./api/routes/customer')
 var order = require('./api/routes/order')
-var item = require('./api/routes/item')
+var product = require('./api/routes/product')
 
 const bodyParser = require('body-parser');
 
@@ -19,7 +19,7 @@ app.use('/api/birds', birds);
 
 app.use('/api/customer', customer);
 app.use('/api/order', order);
-app.use('/api/item', item);
+app.use('/api/product', product);
 
 
 // Start server

@@ -1,9 +1,15 @@
-//import data files
-//const customers = require("./customers.js").customers;
-//const products = require("./products.js").products;
-
-
 //make mongodb connection
+
+/***
+ * 
+ * 
+ * 
+ *  Config
+ * 
+ * 
+ * 
+ * 
+ */
 const assert = require("assert");
 const mongoose = require('mongoose');
 const MongoClient = require("mongodb").MongoClient;
@@ -11,7 +17,20 @@ const url = "mongodb://localhost:27017";
 const dbName = "mobile_phone_store";
 const client = new MongoClient(url, { useUnifiedTopology: true });
 
+
+/***
+ * 
+ * 
+ * 
+ *  Customers
+ * 
+ * 
+ * 
+ * 
+ */
+
 //connecting to database, crud inside connection
+
 const db = client.connect(function (err) {
   console.log("Connected!\n");
   return client.db(this.dbName);
@@ -32,12 +51,24 @@ async function findAllCustomers() {
   return customer
 };
 
-async function findById(id) { 
+async function findCustomerById(id) {
+  console.log("FIND CZSTOIMER", id)
+ 
   const db = client.db(dbName);
+
+  console.log("GET DATABASE", id)
+
   const collection = db.collection("customers");
+
+  console.log("HAS collection", id)
+
   var id = mongoose.Types.ObjectId(id);
+  console.log("HAS ID", id)
+
   var query = {_id: id};
   let customer = await collection.find(query).toArray();
+  console.log("@findCustomerById FOUND !!! ", customer)
+
   return customer
 }
 
@@ -64,14 +95,118 @@ async function deleteCustomer(id) {
   let customer = await collection.deleteOne(id);
 }
 
+
+
+
+
+/***
+ * 
+ * 
+ * 
+ *  Products
+ * 
+ * 
+ * 
+ * 
+ */
+
+async function insertProduct(data) {
+  const db = client.db(dbName);
+  const collection = db.collection("products");
+  var query = {data};
+  let product = await collection.insertOne(query);
+  return product.ops[0]._id
+}
+
+async function findProductById(id) { 
+  const db = client.db(dbName);
+  const collection = db.collection("product");
+  console.log("id", id)
+
+  var id = mongoose.Types.ObjectId(id);
+  var query = {_id: id};
+  let product = await collection.find(query).toArray();
+  return product
+}
+
+
+/***
+ * 
+ * 
+ * 
+ *  Orders
+ * 
+ * 
+ * 
+ * 
+ */
+
+ async function insertOrder(data) {
+
+  // findCustomerById()
+  console.log("@đB!!! data is ", data)
+  
+  let customer = await this.findCustomerById(data.customer_id);
+
+  console.log("findCustomerById ---> ",customer)
+
+  let product = await this.findProductById(data.product_id);
+  console.log("findProductById --->",product)
+
+  if (customer.length === 0 && product.length === 0) {
+    console.log("ERROR CRASH -- entity not found !!!!!")
+  } else {
+    console.log("SUCCEEDED")
+  }
+
+  const db = client.db(dbName);
+  const collection = db.collection("orders");
+
+
+  var query = {data};
+  let order = await collection.insertOne(query);
+
+  
+  return order.ops[0]._id
+}
+
+
+
+
+
+
+/***
+ * 
+ * 
+ * 
+ *  exports
+ * 
+ * 
+ * 
+ * 
+ */
+module.exports.findAllCustomers = findAllCustomers
+module.exports.findCustomerById = findCustomerById
+module.exports.insertCustomer = insertCustomer 
+module.exports.updateCustomer = updateCustomer 
+module.exports.deleteCustomer = deleteCustomer 
+
+
+
+
+
+module.exports.insertProduct = insertProduct 
+module.exports.findProductById = findProductById 
+module.exports.insertOrder = insertOrder 
+
 // const deleteCustomers = async function (db, callback) {
-//   const collection = db.collection("customers");
-
-//   let deleted = await collection.deleteMany({});
-//   console.log(deleted);
-//   callback();
-// };
-
+  //   const collection = db.collection("customers");
+  
+  //   let deleted = await collection.deleteMany({});
+  //   console.log(deleted);
+  //   callback();
+  // };
+  
 // const updateCustomer = async function (db, callback) {
 //   const collection = db.collection("customers");
 
@@ -93,11 +228,6 @@ async function deleteCustomer(id) {
 //   callback();
 // };
 
-module.exports.findAllCustomers = findAllCustomers
-module.exports.findById = findById
-module.exports.insertCustomer = insertCustomer 
-module.exports.updateCustomer = updateCustomer 
-module.exports.deleteCustomer = deleteCustomer 
 
 
 
@@ -110,6 +240,7 @@ module.exports.deleteCustomer = deleteCustomer
 // //Creating Orders collection containing customer id, and products ordered ids
 // //function is assigned to var therefore it is an inline function
 // //to do, what is an anonymous function?
+
 // const insertOrder = async function (db, callback) {
 //   //first insert order document
 //   const collection = db.collection("orders");

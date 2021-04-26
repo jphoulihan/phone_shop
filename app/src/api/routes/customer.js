@@ -1,13 +1,7 @@
-const db = require("./database");
+const db = require("../../db/database");
 
 var express = require('express')
 var router = express.Router()
-const bodyParser = require('body-parser');
-
-router.use(function timeLog (req, res, next) {
-  console.log('Time: ', Date.now())
-  next()
-})
 
 // get all customers    :/api/customer          GET
 // get customer by Id   :/api/customer/{id}     GET
@@ -24,7 +18,7 @@ router.get('/', function (req, res) {
 
 router.get('/:id', function (req, res) {
     let userId = req.params.id
-    let cust = db.findById(userId); // pass id here.
+    let cust = db.findCustomerById(userId); // pass id here.
     console.log(userId)
     cust.then(c => res.send(c));
 })

@@ -5,25 +5,34 @@ Application:
     - technologies:
         - Express .js
         - Javascript 
+        - discuss two layer / 2 tier architecture. controller (api)/persistence(db)
 
         - alternatives: 
             - could have used typescript - Typescript, benefits of strongly typed languages.
-        
-            - Data model design
-                - NoSQL, vs Relational 
+            - we could have used mongoose schema to enforce database consistency but we did not.
+            - HTTP DELETE method - idempotency.
+            
+            - Data model design 
+            - NoSQL, vs Relational: differences 
+            - excel screenshot
                 - Collections - name of collections 
-                - Collections - properties and types eg orderId: 
-                    linux cmd - "uuidgen" "a2366274-c63f-4a93-ba47-7452198b4925"
-                - 
-
+                - Collections - properties and description <key>: <description>
     - README: 
     depenenceies
         - how to install application
+            - install mongo
             - npm install node 
             - npm install Express
             - npm install mongodb 
-        - how to start 
-        - how to use: postman (bonus points for creating and submitting the postman collection)
+            - bodyparser
+            - mongogoose: ObjectId - was it necessary to install npm mongoose.
+
+        - how to start: 
+            npm install above dependencies
+            run this <load_db.ps> script
+
+        - mention postman collections: postman (bonus points for creating and submitting the postman collection)
+
         - docs: provided in ascii doc format - to view formatting install asscidoc extension
 
 -----
