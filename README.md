@@ -64,13 +64,13 @@ $ git clone https://github.com/jphoulihan/phone_shop.git
 ```
 <br/>
 
-_In app/src directory_
+_In project root directory_
 
 ```
 $ npm i
 ```
 
-_Run in app directory_
+_Run in app/src directory_
 ```
 $ node app.js
 ```
