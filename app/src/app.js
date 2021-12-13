@@ -4,9 +4,9 @@ const routes = require('./api/routes');
 
 //assignment-05-
 
-var customer = require('./api/routes/assignment-05-customer')
-var order = require('./api/routes/assignment-05-order')
-var product = require('./api/routes/assignment-05-product')
+var customer = require('./api/routes/customer')
+var order = require('./api/routes/order')
+var product = require('./api/routes/product')
 
 const bodyParser = require('body-parser');
 

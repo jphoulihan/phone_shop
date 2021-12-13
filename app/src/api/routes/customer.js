@@ -1,4 +1,4 @@
-const db = require("../../assignment-05-db/database");
+const db = require("../../db/database");
 
 var express = require("express");
 var router = express.Router();
@@ -25,7 +25,7 @@ router.get("/:id", function (req, res) {
 
 //
 router.put("/", function (req, res) {
-  console.log("req message is for put is ", req.body);
+  console.log("req message for put", req.body);
   let customer = db.insertCustomer(req.body);
   customer = customer.then((c) => res.send(c));
 });

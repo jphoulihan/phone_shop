@@ -1,4 +1,4 @@
-const db = require("../../assignment-05-db/database");
+const db = require("../../db/database");
 
 var express = require('express');
 var router = express.Router();

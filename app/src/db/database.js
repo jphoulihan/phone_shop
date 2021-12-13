@@ -59,6 +59,9 @@ const client = new MongoClient(url, { useUnifiedTopology: true });
 
 // });
 
+// insertCustomers();
+// insertProducts();
+
 //please comment out code block after db is populated with test data this contains a seperate
 //connection to the other crud functions below
 //****************** CODE BLOCK FOR DATA INSERT ENDS HERE ************************************ */
@@ -90,22 +93,22 @@ async function findAllCustomers() {
 }
 
 async function findCustomerById(id) {
-  console.log("FIND CUSTOMER", id);
+  // console.log("FIND CUSTOMER", id);
 
   const db = client.db(dbName);
 
-  console.log("GET DATABASE", id);
+  // console.log("GET DATABASE", id);
 
   const collection = db.collection("customers");
 
-  console.log("HAS collection", id);
+  // console.log("HAS collection", id);
 
   var id = mongoose.Types.ObjectId(id);
-  console.log("HAS ID", id);
+  // console.log("HAS ID", id);
 
   var query = { _id: id };
   let customer = await collection.find(query).toArray();
-  console.log("@findCustomerById FOUND !!! ", customer);
+  // console.log("@findCustomerById FOUND !!! ", customer);
 
   return customer;
 }
@@ -232,9 +235,9 @@ async function insertOrder(data) {
 
   let order = data;
   let query = { order };
-  let order = await collection.insertOne(query);
+  let orders  = await collection.insertOne(query);
 
-  return order.ops[0]._id;
+  return orders.ops[0]._id;
 }
 
 async function updateOrder(id, data) {

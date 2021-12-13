@@ -1,4 +1,4 @@
-const db = require("../../assignment-05-db/database");
+const db = require("../../db/database");
 
 var express = require("express");
 var router = express.Router();
@@ -35,7 +35,7 @@ router.patch("/:id", function (req, res) {
 
 router.delete("/:id", function (req, res) {
   let userId = req.params.id;
-  console.log("Deleted", userId);
+  console.log("The following order has been successfully deleted: ", userId);
   let customer = db.deleteOrder(userId);
   customer.then((c) => res.send(c));
 });
